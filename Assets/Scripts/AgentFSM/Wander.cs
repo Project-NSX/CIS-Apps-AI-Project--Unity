@@ -6,18 +6,13 @@ public class Wander : EnemyBaseFSM
 {
     // Init Waypoints Array
     GameObject[] waypoints;
-
-
     // Variable to track current waypoint
     public int currentWP;
-
-
-
     // State Machine Awake
+
     private void Awake()
     {
         waypoints = GameObject.FindGameObjectsWithTag("waypoint");
-
     }
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -26,10 +21,7 @@ public class Wander : EnemyBaseFSM
         // Call OnStateEnter from EnemyBaseFSM.
         // This will get the Agent info
         base.OnStateEnter(animator, stateInfo, layerIndex);
-        // Go to starting waypoing
-        currentWP = 0;
-        // Below will send the agent to a random waypoint
-        // currentWP = Random.Range(0, waypoints.Length);
+        currentWP = Random.Range(0, waypoints.Length);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -40,10 +32,8 @@ public class Wander : EnemyBaseFSM
 
         // If distance between current waypoint and NPC is less than accuracy.
         if (Vector3.Distance(waypoints[currentWP].transform.position,
-            Agent.transform.position) < waypointAccuracy)
+            enemyAgent.transform.position) < waypointAccuracy)
         {
-
-
             currentWP = Random.Range(0, waypoints.Length);
             // If current waypoint is greater than or equal to the..
             // .. length of the array..
@@ -54,8 +44,6 @@ public class Wander : EnemyBaseFSM
                 // Below will send the agent to a random waypoint
                 currentWP = Random.Range(0, waypoints.Length);
             }
-
-
         }
         // Move agent to next destination
         enemyAgent.SetDestination(waypoints[currentWP].transform.position);
@@ -67,12 +55,6 @@ public class Wander : EnemyBaseFSM
             float turnAngle = Vector3.Angle(enemyAgent.transform.forward, toTarget);
             enemyAgent.acceleration = turnAngle * enemyAgent.speed;
         }
-        // If agent does not have path, pick a new waypoint. 
-        else
-        {
-            currentWP = Random.Range(0, waypoints.Length);
-        }
-
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -80,5 +62,4 @@ public class Wander : EnemyBaseFSM
     {
 
     }
-
 }
