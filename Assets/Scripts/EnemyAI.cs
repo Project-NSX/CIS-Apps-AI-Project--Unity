@@ -10,6 +10,15 @@ public class EnemyAI : MonoBehaviour
 
     int health = 100;
 
+    // Vision variables
+    // Range the agent can see
+    public float visionRange = 20;
+    // Ray from the agent to the player
+    RaycastHit hit;
+    // Vision angle of the agent 
+    public float visionAngle = 30.0f;
+
+
     // Method called from NPCBaseFSM
     public GameObject GetPlayer()
     {
@@ -32,10 +41,17 @@ public class EnemyAI : MonoBehaviour
 
     private void LateUpdate()
     {
+         // Work out the vector from the bot to the player
+        Vector3 distanceToPlayer = player.transform.position - this.transform.position;
+
         // Set the distanceToPlayer parameter
         anim.SetFloat("distanceToPlayer",
                       Vector3.Distance(transform.position,
                       player.transform.position));
+        //�Calculate�Angle�between�direction�vector�above�and�the..
+        //�..forward�facing�vector�of�the�NPC
+        float angle = Vector3.Angle(distanceToPlayer, this.transform.forward);
+
 
         // Take health from the enemy. Used for testing
         if (Input.GetKeyDown("space"))
@@ -43,6 +59,24 @@ public class EnemyAI : MonoBehaviour
             health -= 10;       
         }
         anim.SetInteger("health", health);
+
+        //Vision 
+       
+        // Debug ray to see where the distance vector is being projected
+        Debug.DrawRay(this.transform.position, distanceToPlayer, Color.red);
+        // Project Ray
+        if (Physics.Raycast(this.transform.position, distanceToPlayer, out hit))
+        {
+            // If ray hits the player & is within vision range
+            if (hit.collider.gameObject.tag == "Player" && distanceToPlayer.magnitude < visionRange && angle < visionAngle) 
+            {
+                anim.SetBool("seePlayer", true);
+            }
+            else
+            {
+                anim.SetBool("seePlayer", false);
+            }
+        }
     }
 
     // Method to update the health of the agent
