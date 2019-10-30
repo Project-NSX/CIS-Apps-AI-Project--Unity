@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     // Vision angle of the agent 
     public float visionAngle = 30.0f;
 
+    public Vector3 playerLastPos;
 
     // Method called from NPCBaseFSM
     public GameObject GetPlayer()
@@ -101,5 +102,11 @@ public class EnemyAI : MonoBehaviour
     public void HealDowned()
     {
         health += 5;
+    }
+
+    public void GetPlayerLastPos()
+    {
+        playerLastPos = player.transform.position;
+        anim.SetBool("searchLocation", true);
     }
 }

@@ -12,6 +12,7 @@ public class EnemyBaseFSM : StateMachineBehaviour
 
     public GameObject player;
 
+
     public float waypointAccuracy = 3.00f;
 
 
@@ -27,5 +28,7 @@ public class EnemyBaseFSM : StateMachineBehaviour
         enemyAgent = Agent.GetComponent<UnityEngine.AI.NavMeshAgent>();
 
         player = Agent.GetComponent<EnemyAI>().GetPlayer();
+
+
     }
 }
