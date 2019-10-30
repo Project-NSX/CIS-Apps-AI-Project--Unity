@@ -12,7 +12,11 @@ public class EnemyBaseFSM : StateMachineBehaviour
 
     public GameObject player;
 
+    // TODO - Add this to EnemyAI and pass it to here
     public float waypointAccuracy = 3.00f;
+
+    // TODO: Add this to enemyAI and pass it to here
+    public int rotationSpeed = 3;
 
 
     public override void OnStateEnter(
@@ -27,5 +31,6 @@ public class EnemyBaseFSM : StateMachineBehaviour
         enemyAgent = Agent.GetComponent<UnityEngine.AI.NavMeshAgent>();
 
         player = Agent.GetComponent<EnemyAI>().GetPlayer();
+       
     }
 }
