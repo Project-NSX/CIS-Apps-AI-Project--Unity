@@ -12,13 +12,17 @@ public class EnemyAI : MonoBehaviour
 
     // Vision variables
     // Range the agent can see
-    public float visionRange = 20;
+    public float visionRange;
     // Ray from the agent to the player
     RaycastHit hit;
-    // Vision angle of the agent 
-    public float visionAngle = 30.0f;
+    // Vision angle of the agent
 
     public Vector3 playerLastPos;
+    public float visionAngle;
+    public float hearingDistance;
+
+    // TODO Add rotationSpeed to this and pass it to BaseFSM
+    // TODO Add Waypoint accuracy to this and pass it to BaseFSM
 
     // Method called from NPCBaseFSM
     public GameObject GetPlayer()
@@ -57,25 +61,26 @@ public class EnemyAI : MonoBehaviour
         // Take health from the enemy. Used for testing
         if (Input.GetKeyDown("space"))
         {
-            health -= 10;       
+            health -= 10;
         }
         anim.SetInteger("health", health);
 
-        //Vision 
-       
+        //Vision
+
         // Debug ray to see where the distance vector is being projected
-        Debug.DrawRay(this.transform.position, distanceToPlayer, Color.red);
+        //Debug.DrawRay(this.transform.position, distanceToPlayer, Color.red);
+
         // Project Ray
         if (Physics.Raycast(this.transform.position, distanceToPlayer, out hit))
         {
             // If ray hits the player & is within vision range
-            if (hit.collider.gameObject.tag == "Player" && distanceToPlayer.magnitude < visionRange && angle < visionAngle) 
+            if (hit.collider.gameObject.tag == "Player" && distanceToPlayer.magnitude < visionRange && angle < visionAngle || distanceToPlayer.magnitude < hearingDistance)
             {
-                anim.SetBool("seePlayer", true);
+                anim.SetBool("detectPlayer", true);
             }
             else
             {
-                anim.SetBool("seePlayer", false);
+                anim.SetBool("detectPlayer", false);
             }
         }
     }
