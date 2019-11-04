@@ -10,13 +10,7 @@ public class Downed : EnemyBaseFSM
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
 
-        
-
-        // FIXME:
-        // This Invoke Repeating does not work.
-        // Cancelling the invoke in Retreat causes this invoke to not work
         Agent.GetComponent<EnemyAI>().InvokeRepeating("HealDowned", 1f, 0.5f);
-        Debug.Log("WTF IS HAPPENING");
 
         enemyAgent.isStopped = true;
     }

@@ -14,6 +14,10 @@ public class Chase : EnemyBaseFSM
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemyAgent.SetDestination(player.transform.position);
+        if (animator.GetBool("detectPlayer") == false)
+        {
+            animator.SetBool("searchLocation", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

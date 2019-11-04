@@ -8,15 +8,20 @@ public class SearchArea : EnemyBaseFSM
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerLastPos = Agent.GetComponent<EnemyAI>().playerLastPos;
-        enemyAgent.SetDestination(player.transform.position);
+        base.OnStateEnter(animator, stateInfo, layerIndex);
+
+        playerLastPos = player.transform.position;
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector3.Distance(playerLastPos,
-            enemyAgent.transform.position) < 3)
+        
+        //enemyAgent.SetDestination(playerLastPos);
+        enemyAgent.destination = playerLastPos;
+
+        if (Vector3.Distance(enemyAgent.transform.position, playerLastPos) < waypointAccuracy || animator.GetBool("detectPlayer") == true)
         {
             animator.SetBool("searchLocation", false);
         }

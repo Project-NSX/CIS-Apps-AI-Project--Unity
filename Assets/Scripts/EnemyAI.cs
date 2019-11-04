@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     RaycastHit hit;
     // Vision angle of the agent
 
-    public Vector3 playerLastPos;
+    Vector3 playerLastPos;
     public float visionAngle;
     public float hearingDistance;
 
@@ -53,8 +53,8 @@ public class EnemyAI : MonoBehaviour
         anim.SetFloat("distanceToPlayer",
                       Vector3.Distance(transform.position,
                       player.transform.position));
-        //�Calculate�Angle�between�direction�vector�above�and�the..
-        //�..forward�facing�vector�of�the�NPC
+        //Calculate Angle between direction vector above and the..
+        //..forward facing vector of the NPC
         float angle = Vector3.Angle(distanceToPlayer, this.transform.forward);
 
 
@@ -109,9 +109,4 @@ public class EnemyAI : MonoBehaviour
         health += 5;
     }
 
-    public void GetPlayerLastPos()
-    {
-        playerLastPos = player.transform.position;
-        anim.SetBool("searchLocation", true);
-    }
 }
