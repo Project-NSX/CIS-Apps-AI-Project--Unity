@@ -369,8 +369,8 @@ AnimatorStateTransition:
   - m_ConditionMode: 3
     m_ConditionEvent: health
     m_EventTreshold: 99
-  - m_ConditionMode: 4
-    m_ConditionEvent: distanceToPlayer
+  - m_ConditionMode: 1
+    m_ConditionEvent: detectPlayer
     m_EventTreshold: 20
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102055190566419890}
@@ -450,8 +450,8 @@ AnimatorStateTransition:
   - m_ConditionMode: 3
     m_ConditionEvent: health
     m_EventTreshold: 80
-  - m_ConditionMode: 3
-    m_ConditionEvent: distanceToPlayer
+  - m_ConditionMode: 2
+    m_ConditionEvent: detectPlayer
     m_EventTreshold: 21
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102414353726402840}

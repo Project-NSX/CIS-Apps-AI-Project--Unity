@@ -24,6 +24,14 @@ public class Retreat : EnemyBaseFSM
 
         enemyAgent.SetDestination(newGoal);
 
+        // Keep agent more tightly on it's path
+        if (enemyAgent.hasPath)
+        {
+            Vector3 toTarget = enemyAgent.steeringTarget - enemyAgent.transform.position;
+            float turnAngle = Vector3.Angle(enemyAgent.transform.forward, toTarget);
+            enemyAgent.acceleration = turnAngle * enemyAgent.speed;
+        }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
