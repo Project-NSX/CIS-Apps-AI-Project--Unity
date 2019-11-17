@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour
     // Vision variables
     // Range the agent can see
     public float visionRange;
+
     // Ray from the agent to the player
     RaycastHit hit;
     // Vision angle of the agent

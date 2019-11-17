@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SearchArea : EnemyBaseFSM
 {
-    //GameObject[] waypoints;
-    //GameObject waypoint;
+    GameObject[] waypoints;
+    GameObject waypoint;
 
     Vector3 playerLastPos;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -41,17 +41,17 @@ public class SearchArea : EnemyBaseFSM
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //waypoints = GameObject.FindGameObjectsWithTag("waypoint");
-        //waypoint = ;
+        waypoints = GameObject.FindGameObjectsWithTag("waypoint");
+        waypoint = waypoints[0];
 
-        //for (int i = waypoints.Length; i < waypoints.Length ; i++)
-        //{
-        //    if(Vector3.Distance(waypoints[i].transform.position, player.transform.position) < Vector3.Distance(waypoint.transform.position, player.transform.position))
-        //    {
-        //        waypoint = waypoints[i];
-        //    }
-        //}
-        //enemyAgent.destination = waypoint.transform.position;
+        for (int i = waypoints.Length; i < waypoints.Length; i++)
+        {
+            if (Vector3.Distance(waypoints[i].transform.position, player.transform.position) < Vector3.Distance(waypoint.transform.position, player.transform.position))
+            {
+                waypoint = waypoints[i];
+            }
+        }
+        enemyAgent.destination = waypoint.transform.position;
     }
 
 }
