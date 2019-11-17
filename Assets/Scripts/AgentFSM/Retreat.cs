@@ -7,7 +7,6 @@ public class Retreat : EnemyBaseFSM
 {
     Vector3 newGoal;
     Vector3 fleeDirection;
-    NavMeshPath newPath;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -24,14 +23,14 @@ public class Retreat : EnemyBaseFSM
 
         enemyAgent.SetDestination(newGoal);
 
-        // Keep agent more tightly on it's path
-        if (enemyAgent.hasPath)
+        if (animator.GetFloat("distanceToPlayer") < 15 )
         {
-            Vector3 toTarget = enemyAgent.steeringTarget - enemyAgent.transform.position;
-            float turnAngle = Vector3.Angle(enemyAgent.transform.forward, toTarget);
-            enemyAgent.acceleration = turnAngle * enemyAgent.speed;
+            animator.SetBool("detectPlayerRetreating", true);
         }
-
+        else
+        {
+            animator.SetBool("detectPlayerRetreating", false);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

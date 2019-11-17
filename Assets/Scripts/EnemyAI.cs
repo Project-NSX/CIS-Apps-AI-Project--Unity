@@ -6,7 +6,10 @@ public class EnemyAI : MonoBehaviour
 {
     //Initialise animator
     Animator anim;
+
     GameObject player;
+    
+    public GameObject head;
 
     int health = 100;
 
@@ -22,33 +25,44 @@ public class EnemyAI : MonoBehaviour
     public float visionAngle;
     public float hearingDistance;
 
-    // TODO Add rotationSpeed to this and pass it to BaseFSM
-    // TODO Add Waypoint accuracy to this and pass it to BaseFSM
+    public float hearMovementSpeed;
+    Vector3 playerPos, playerVelocity;
 
     // Method called from NPCBaseFSM
     public GameObject GetPlayer()
     {
         return player;
-    }
 
+    }
 
 
     // Use this for initialization
     void Start()
     {
+
         // Get animator
         anim = GetComponent<Animator>();
 
         // Get player using their tag
         player = GameObject.FindGameObjectWithTag("Player");
 
+        playerPos = player.transform.position;
+
         InvokeRepeating("UpdateHealth", 0.1f, 0.1f);
     }
 
+    private void Update()
+    {
+        playerVelocity = (player.transform.position - playerPos) / Time.deltaTime;
+        playerPos = player.transform.position;
+        //Debug.Log("Player Speed: " + playerVelocity.magnitude);
+    }
     private void LateUpdate()
     {
+
+
          // Work out the vector from the bot to the player
-        Vector3 distanceToPlayer = player.transform.position - this.transform.position;
+        Vector3 distanceToPlayer = player.transform.position - head.transform.position;
 
         // Set the distanceToPlayer parameter
         anim.SetFloat("distanceToPlayer",
@@ -56,7 +70,7 @@ public class EnemyAI : MonoBehaviour
                       player.transform.position));
         //Calculate Angle between direction vector above and the..
         //..forward facing vector of the NPC
-        float angle = Vector3.Angle(distanceToPlayer, this.transform.forward);
+        float angle = Vector3.Angle(distanceToPlayer, transform.forward);
 
 
         // Take health from the enemy. Used for testing
@@ -69,13 +83,14 @@ public class EnemyAI : MonoBehaviour
         //Vision
 
         // Debug ray to see where the distance vector is being projected
-        //Debug.DrawRay(this.transform.position, distanceToPlayer, Color.red);
+        Debug.DrawRay(head.transform.position, distanceToPlayer, Color.red);
 
         // Project Ray
-        if (Physics.Raycast(this.transform.position, distanceToPlayer, out hit))
+        if (Physics.Raycast(head.transform.position, distanceToPlayer, out hit))
         {
+
             // If ray hits the player & is within vision range
-            if (hit.collider.gameObject.tag == "Player" && distanceToPlayer.magnitude < visionRange && angle < visionAngle || distanceToPlayer.magnitude < hearingDistance)
+            if (hit.collider.gameObject.tag == "Player" && distanceToPlayer.magnitude < visionRange && angle < visionAngle || distanceToPlayer.magnitude < hearingDistance && playerVelocity.magnitude > hearMovementSpeed || anim.GetBool("detectPlayerRetreating") == true)
             {
                 anim.SetBool("detectPlayer", true);
             }
