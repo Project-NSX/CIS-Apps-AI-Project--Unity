@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class EnemyAI : MonoBehaviour
     public float hearMovementSpeed;
     Vector3 playerPos, playerVelocity;
 
+    private NavMeshAgent agent;
+    public float speed = 3.5f;
+    public float speedMud = 1.5f;
+
     // Method called from NPCBaseFSM
     public GameObject GetPlayer()
     {
@@ -42,6 +47,8 @@ public class EnemyAI : MonoBehaviour
 
         // Get animator
         anim = GetComponent<Animator>();
+
+        agent = GetComponent<NavMeshAgent>();
 
         // Get player using their tag
         player = GameObject.FindGameObjectWithTag("Player");
@@ -99,6 +106,23 @@ public class EnemyAI : MonoBehaviour
                 anim.SetBool("detectPlayer", false);
             }
         }
+
+
+        // Find nearest point on mud.
+        int mudMask = 1 << NavMesh.GetAreaFromName("Mud");
+        NavMeshHit navHit;
+        agent.SamplePathPosition(-1, 0.0f, out navHit);
+        if (navHit.mask == mudMask)
+        {
+            // In Mud
+            agent.speed = speedMud;
+            Debug.Log("Agent in The Mud");
+        }
+        else
+        {
+            agent.speed = speed;   
+        }
+
     }
 
     // Method to update the health of the agent
