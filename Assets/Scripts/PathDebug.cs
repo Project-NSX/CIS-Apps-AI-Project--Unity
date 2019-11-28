@@ -7,6 +7,8 @@ using UnityEngine.AI;
 
 
 // This script was made from: https://www.youtube.com/watch?v=nrRfqS6u_zg
+// Attach to agent to show it's current path
+
 public class PathDebug : MonoBehaviour
 {
     [SerializeField]
@@ -33,7 +35,5 @@ public class PathDebug : MonoBehaviour
         {
             linerenderer.enabled = false;
         }
-
-
     }
 }

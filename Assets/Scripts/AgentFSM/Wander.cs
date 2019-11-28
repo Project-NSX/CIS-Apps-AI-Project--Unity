@@ -8,7 +8,6 @@ public class Wander : EnemyBaseFSM
     // State Machine Awake
     private void Awake()
     {
-
     }
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -32,15 +31,17 @@ public class Wander : EnemyBaseFSM
         if (Vector3.Distance(waypoints[currentWP].transform.position,
                 enemyAgent.transform.position) < waypointAccuracy)
         {
+            // Pick new current waypoint.
             currentWP = Random.Range(0, waypoints.Length);
             // If current waypoint is greater than or equal to the..
             // .. length of the array..
             if (currentWP >= waypoints.Length)
             {
-                // Below will send the agent to a random waypoint
+                // Set new random waypoint
                 currentWP = Random.Range(0, waypoints.Length);
             }
         }
+
         // Move agent to next destination
         enemyAgent.SetDestination(waypoints[currentWP].transform.position);
     }
