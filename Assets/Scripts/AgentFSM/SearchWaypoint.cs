@@ -24,6 +24,7 @@ public class SearchWaypoint : EnemyBaseFSM
                 // Set new waypoint to current waypoint
                 waypoint = waypoints[i];
             }
+
             //Debug.Log("Current: " + waypoint);
         }
         // Shows waypoint closest to the player
