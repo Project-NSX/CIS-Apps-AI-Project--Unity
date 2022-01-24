@@ -98,7 +98,7 @@ public class EnemyAI : MonoBehaviour
         float angle = Vector3.Angle(distanceToPlayer, head.transform.forward);
 
         // Debug ray to see where the distance vector is being projected
-        Debug.DrawRay(head.transform.position, distanceToPlayer, Color.red);
+        //Debug.DrawRay(head.transform.position, distanceToPlayer, Color.red);
 
         // Project Ray from the head of the agent to the player
         if (Physics.Raycast(head.transform.position, distanceToPlayer, out hit))
